@@ -3,6 +3,12 @@ import Select from "react-select/base";
 
 function AddItem() {
 
+    const languages = [
+        { value: 'english', label: 'English' },
+        { value: 'french', label: 'French' },
+        { value: 'german', label: 'German' },
+        { value: 'sinhala', label: 'Sinhala' }];
+
     const [touched, setTouched] = useState({
         category: false,
         title: false,
@@ -39,7 +45,15 @@ function AddItem() {
         const id = e.target.id;
         setTouched(prev => ({ ...prev, [id]: true }));
     };
-    
+
+    const handleLanguageChange = (selected) => {
+        setFormData(prev => ({ ...prev, language: selected }));
+    };
+
+    const handleSubmit = () => {
+
+    };
+
     return (
         <div className="container mt-3">
             <div className="card mx-auto rounded shadow">
@@ -95,7 +109,8 @@ function AddItem() {
 
                             <div className="mb-3">
                                 <label htmlFor="language" className="form-label"><b>Language*</b></label>
-                                <Select id="language" onChange={handleChange} onBlur={handleBlur} value={formData.language} required options="" isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`}
+                                <Select id="language" onChange={handleLanguageChange} onBlur={handleBlur} value={formData.language} required 
+                                options={languages} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} onMenuOpen={()=>{}}
                                     placeholder="Select a language">
                                 </Select>
                             </div>
@@ -112,26 +127,6 @@ function AddItem() {
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="img" className="form-label"><b>Image*</b></label>
-                                <input type="file" id="img" className={`form-control ${touched.img && !formData.img ? 'is-invalid' : ''}`} onChange={handleChange} onBlur={handleBlur} required value={formData.img}
-                                    accept="image/*" />
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="status" className="form-label d-block"><b>Status*</b></label>
-                                <div className="form-check form-check-inline">
-                                    <input type="radio" id="ongoing" name="status" className="form-check-input" onChange={handleChange}
-                                        value="Ongoing" required checked={formData.status === 'Ongoing'}/>
-                                    <label htmlFor="ongoing" className="form-check-label">Ongoing</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input type="radio" id="complete" name="status" className="form-check-input" onChange={handleChange} 
-                                    value="Complete" checked={formData.status === 'Completed'}/>
-                                    <label htmlFor="complete" className="form-check-label">Complete</label>
-                                </div>
-                            </div>
-
-                            <div className="mb-3">
                                 <label htmlFor="seasons" className="form-label"><b>Total Number of Seasons</b></label>
                                 <input type="number" id="seasons" value={formData.seasons} className="form-control" onChange={handleChange} min="1"
                                     max="50" placeholder="Enter Total Number of Seasons" />
@@ -141,6 +136,12 @@ function AddItem() {
                                 <label htmlFor="episodes" className="form-label"><b>Total Number of Episodes</b></label>
                                 <input type="number" id="episodes" value={formData.episodes} className="form-control" onChange={handleChange} min="1"
                                     max="10000" placeholder="Enter Total Number of Episodes" />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="img" className="form-label"><b>Image*</b></label>
+                                <input type="file" id="img" className={`form-control ${touched.img && !formData.img ? 'is-invalid' : ''}`} onChange={handleChange} onBlur={handleBlur} required value={formData.img}
+                                    accept="image/*" />
                             </div>
 
                             <div className="mb-3 col-lg-6 col-md-12 col-sm-12">
@@ -153,6 +154,30 @@ function AddItem() {
                                 <label htmlFor="ro" className="form-label"><b>Rotten Tomatoes</b></label>
                                 <input type="number" id="ro" value={formData.ro} className="form-control" onChange={handleChange} min="1"
                                     max="100" placeholder="Enter Rotten Tomatoes" />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="trailer" className="form-label"><b>Youtube Trailer</b></label>
+                                <input type="text" id="trailer" className="form-control" onChange={handleChange} onBlur={handleBlur} maxLength="200" value={formData.trailer}
+                                    placeholder="Enter URL" />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="status" className="form-label d-block"><b>Status*</b></label>
+                                <div className="form-check form-check-inline">
+                                    <input type="radio" id="ongoing" name="status" className="form-check-input" onChange={handleChange}
+                                        value="Ongoing" required checked={formData.status === 'Ongoing'} />
+                                    <label htmlFor="ongoing" className="form-check-label">Ongoing</label>
+                                </div>
+                                <div className="form-check form-check-inline">
+                                    <input type="radio" id="complete" name="status" className="form-check-input" onChange={handleChange}
+                                        value="Complete" checked={formData.status === 'Completed'} />
+                                    <label htmlFor="complete" className="form-check-label">Complete</label>
+                                </div>
+                            </div>
+
+                            <div className="text-center">
+                                <button className="btn btn-primary" type="submit" onSubmit={handleSubmit}>Submit</button>
                             </div>
                         </div>
                     </form>
