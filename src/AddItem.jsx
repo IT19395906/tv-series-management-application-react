@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Select from "react-select/base";
+import { toast, ToastContainer } from "react-toastify";
+import Swal from "sweetalert2";
 
 function AddItem() {
 
@@ -35,6 +37,11 @@ function AddItem() {
         tag: '',
     });
 
+    const dateRef = useRef();
+    const handleDate = () => {
+        dateRef.current.showPicker?.();
+    }
+
     const handleChange = (e) => {
         const id = e.target.id;
         const value = e.target.value;
@@ -50,7 +57,37 @@ function AddItem() {
         setFormData(prev => ({ ...prev, language: selected }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!formData.title || !formData.category || !formData.description || !formData.releasedDate || !formData.img || !formData.status) {
+            toast.warning('Invalid Form', { toastId: "invalid-form-warning" })
+            return;
+        }
+
+        Swal.fire({
+            title: "Are you sure to add tv series ?",
+            text: `You are adding ${formData.title.trim()}`,
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'No'
+        }).then(result => {
+            if (result.isConfirmed) {
+                try {
+                    const res = fetch('http://localhost:8080/api/tvseries/add', { method: 'POST', body: formData });
+                    if (res.message == 'Tv Series Uploaded Successfully') {
+                        toast.success('Tv Series Uploaded Successfully', { toastId: "form-success" })
+                    } else {
+                        toast.error('Tv Series Upload Failed')
+                    }
+                } catch (error) {
+                    toast.error(error, { toastId: "form-error" })
+                }
+            }
+        })
 
     };
 
@@ -59,7 +96,8 @@ function AddItem() {
             <div className="card mx-auto rounded shadow">
                 <div className="card-header text-center bg-primary text-white"><h4>Upload Tv Series</h4></div>
                 <div className="card-body">
-                    <form>
+                    <form onSubmit={handleSubmit}>
+                        <ToastContainer hideProgressBar stacked theme="colored" closeOnClick />
                         <div className="row">
                             <div className="mb-3">
                                 <label htmlFor="category" className="form-label"><b>Category*</b></label>
@@ -109,9 +147,9 @@ function AddItem() {
 
                             <div className="mb-3">
                                 <label htmlFor="language" className="form-label"><b>Language*</b></label>
-                                <Select id="language" onChange={handleLanguageChange} onBlur={handleBlur} value={formData.language} required 
-                                options={languages} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} onMenuOpen={()=>{}}
-                                    placeholder="Select a language">
+                                <Select id="language" onChange={handleLanguageChange} onBlur={handleBlur} value={formData.language}
+                                    options={languages} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} onMenuOpen={() => { }}
+                                    onInputChange={() => { }} placeholder="Select a language">
                                 </Select>
                             </div>
 
@@ -123,7 +161,7 @@ function AddItem() {
 
                             <div className="mb-3">
                                 <label htmlFor="releasedDate" className="form-label"><b>Release Date*</b></label>
-                                <input type="date" id="releasedDate" value={formData.releasedDate} className={`form-control ${touched.releasedDate && !formData.releasedDate ? 'is-invalid' : ''}`} onChange={handleChange} onBlur={handleBlur} required />
+                                <input type="date" id="releasedDate" ref={dateRef} onClick={handleDate} value={formData.releasedDate} className={`form-control ${touched.releasedDate && !formData.releasedDate ? 'is-invalid' : ''}`} onChange={handleChange} onBlur={handleBlur} required />
                             </div>
 
                             <div className="mb-3">
@@ -177,7 +215,7 @@ function AddItem() {
                             </div>
 
                             <div className="text-center">
-                                <button className="btn btn-primary" type="submit" onSubmit={handleSubmit}>Submit</button>
+                                <button className="btn btn-primary" type="submit">Submit</button>
                             </div>
                         </div>
                     </form>
