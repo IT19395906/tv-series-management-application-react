@@ -76,6 +76,10 @@ function AddItem() {
         if (!formData.title || !formData.category || !formData.description || !formData.releasedDate || !formData.img || !formData.status) {
             toast.warning('Invalid Form', { toastId: "invalid-form-warning" })
             return;
+        } 
+        
+        const submitDto = {
+            ...formData, title: formData.title.trim(), description: formData.description.trim(), trailer: formData.trailer.trim()
         }
 
         Swal.fire({
@@ -89,7 +93,7 @@ function AddItem() {
             cancelButtonText: 'No'
         }).then(result => {
             if (result.isConfirmed) {
-                fetch('http://localhost:8080/api/tvseries/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) })
+                fetch('http://localhost:8080/api/tvseries/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(submitDto) })
                     .then(response => {
                         if (!response.ok) throw new Error('Http error');
                         return response.json();
