@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import Select from "react-select/base";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Select from "react-select";
 import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 
@@ -46,6 +46,11 @@ function AddItem() {
             .catch(error => toast.error(error.message));
     }, []);
 
+    //reduce unneccessary rerenders
+    const options = useMemo(() => {
+       return languages.map(item => ({ value: item, label: item }));
+    },[languages]);
+
     // useEffect(() => {
     //     console.log('Updated languages:', languages);
     // }, [languages]);
@@ -60,25 +65,21 @@ function AddItem() {
         const value = e.target.value;
 
         if (name === 'seasons' && (value > 50 || (value !== '' && value < 1))) {
-            console.log(value)
             toast.warning('Enter Number Between 1 To 50', { toastId: "season-validate" });
             return;
         }
 
         if (name === 'episodes' && (value > 1000 || (value !== '' && value < 1))) {
-            console.log(value)
             toast.warning('Enter Number Between 1 To 1000', { toastId: "season-validate" });
             return;
         }
 
         if (name === 'imdb' && (value > 10 || (value !== '' && value < 1))) {
-            console.log(value)
             toast.warning('Enter Number Between 1 To 10', { toastId: "season-validate" });
             return;
         }
 
         if (name === 'ro' && (value > 100 || (value !== '' && value < 1))) {
-            console.log(value)
             toast.warning('Enter Number Between 1 To 100', { toastId: "season-validate" });
             return;
         }
@@ -92,12 +93,12 @@ function AddItem() {
     };
 
     const handleLanguageChange = (selected) => {
-        setFormData(prev => ({ ...prev, language: selected }));
+        setFormData(prev => ({ ...prev, language: selected?.value || ''}));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        
         if (!formData.title || !formData.category || !formData.description || !formData.releasedDate || !formData.img || !formData.status) {
             toast.warning('Invalid Form', { toastId: "invalid-form-warning" })
             return;
@@ -213,9 +214,8 @@ function AddItem() {
 
                             <div className="mb-3">
                                 <label htmlFor="language" className="form-label"><b>Language*</b></label>
-                                <Select id="language" name="language" onChange={handleLanguageChange} onBlur={handleBlur} value={formData.language}
-                                    options={languages} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} onMenuOpen={() => { }}
-                                    onInputChange={() => { }} placeholder="Select a language">
+                                <Select id="language" name="language" onChange={handleLanguageChange} onBlur={handleBlur} value={options.find(option => option.value === formData.language || null)}
+                                    options={options} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} placeholder="Select a language">
                                 </Select>
                             </div>
 
