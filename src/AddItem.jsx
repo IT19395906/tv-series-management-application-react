@@ -58,6 +58,27 @@ function AddItem() {
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
+
+        if(name === 'seasons' && (value > 50 || (value !== '' && value < 1))){ console.log(value)
+           toast.warning('Enter Number Between 1 To 50', {toastId: "season-validate"});
+            return;
+        }
+
+        if(name === 'episodes' && (value > 1000 || (value !== '' && value < 1))){ console.log(value)
+           toast.warning('Enter Number Between 1 To 1000', {toastId: "season-validate"});
+            return;
+        }
+
+        if(name === 'imdb' && (value > 10 || (value !== '' && value < 1))){ console.log(value)
+           toast.warning('Enter Number Between 1 To 10', {toastId: "season-validate"});
+            return;
+        }
+
+        if(name === 'ro' && (value > 100 || (value !== '' && value < 1))){ console.log(value)
+           toast.warning('Enter Number Between 1 To 100', {toastId: "season-validate"});
+            return;
+        }
+        
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
