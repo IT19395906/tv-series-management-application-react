@@ -59,26 +59,30 @@ function AddItem() {
         const name = e.target.name;
         const value = e.target.value;
 
-        if(name === 'seasons' && (value > 50 || (value !== '' && value < 1))){ console.log(value)
-           toast.warning('Enter Number Between 1 To 50', {toastId: "season-validate"});
+        if (name === 'seasons' && (value > 50 || (value !== '' && value < 1))) {
+            console.log(value)
+            toast.warning('Enter Number Between 1 To 50', { toastId: "season-validate" });
             return;
         }
 
-        if(name === 'episodes' && (value > 1000 || (value !== '' && value < 1))){ console.log(value)
-           toast.warning('Enter Number Between 1 To 1000', {toastId: "season-validate"});
+        if (name === 'episodes' && (value > 1000 || (value !== '' && value < 1))) {
+            console.log(value)
+            toast.warning('Enter Number Between 1 To 1000', { toastId: "season-validate" });
             return;
         }
 
-        if(name === 'imdb' && (value > 10 || (value !== '' && value < 1))){ console.log(value)
-           toast.warning('Enter Number Between 1 To 10', {toastId: "season-validate"});
+        if (name === 'imdb' && (value > 10 || (value !== '' && value < 1))) {
+            console.log(value)
+            toast.warning('Enter Number Between 1 To 10', { toastId: "season-validate" });
             return;
         }
 
-        if(name === 'ro' && (value > 100 || (value !== '' && value < 1))){ console.log(value)
-           toast.warning('Enter Number Between 1 To 100', {toastId: "season-validate"});
+        if (name === 'ro' && (value > 100 || (value !== '' && value < 1))) {
+            console.log(value)
+            toast.warning('Enter Number Between 1 To 100', { toastId: "season-validate" });
             return;
         }
-        
+
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -97,8 +101,8 @@ function AddItem() {
         if (!formData.title || !formData.category || !formData.description || !formData.releasedDate || !formData.img || !formData.status) {
             toast.warning('Invalid Form', { toastId: "invalid-form-warning" })
             return;
-        } 
-        
+        }
+
         const submitDto = {
             ...formData, title: formData.title.trim(), description: formData.description.trim(), trailer: formData.trailer.trim()
         }
@@ -246,14 +250,20 @@ function AddItem() {
 
                             <div className="mb-3 col-lg-6 col-md-12 col-sm-12">
                                 <label htmlFor="imdb" className="form-label"><b>IMDB Rate</b></label>
-                                <input type="number" id="imdb" name="imdb" value={formData.imdb} className="form-control" onChange={handleChange} min="1"
-                                    max="10" placeholder="Enter IMDB Rate" />
+                                <div className="input-group">
+                                    <input type="number" id="imdb" name="imdb" value={formData.imdb} className="form-control" onChange={handleChange} min="1"
+                                        max="10" placeholder="Enter IMDB Rate" />
+                                    <span className="input-group-text">/10</span>
+                                </div>
                             </div>
 
                             <div className="mb-3 col-lg-6 col-md-12 col-sm-12">
                                 <label htmlFor="ro" className="form-label"><b>Rotten Tomatoes</b></label>
-                                <input type="number" id="ro" name="ro" value={formData.ro} className="form-control" onChange={handleChange} min="1"
-                                    max="100" placeholder="Enter Rotten Tomatoes" />
+                                <div className="input-group">
+                                    <input type="number" id="ro" name="ro" value={formData.ro} className="form-control" onChange={handleChange} min="1"
+                                        max="100" placeholder="Enter Rotten Tomatoes" />
+                                    <span className="input-group-text">%</span>
+                                </div>
                             </div>
 
                             <div className="mb-3">
