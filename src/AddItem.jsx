@@ -31,7 +31,7 @@ function AddItem() {
         episodes: '',
         img: '',
         trailer: '',
-        tag: [],
+        tags: [],
     });
 
     useEffect(() => {
@@ -102,7 +102,7 @@ function AddItem() {
 
     const handleTagChange = (selected) => {
         const value = selected?.map(o => o.value);
-        setFormData(prev => ({ ...prev, tag: value }));
+        setFormData(prev => ({ ...prev, tags: value }));
     };
 
     const handleSubmit = (e) => {
@@ -151,7 +151,7 @@ function AddItem() {
                                 episodes: '',
                                 img: '',
                                 trailer: '',
-                                tag: ''
+                                tags: []
                             });
                             setTouched({
                                 category: false,
@@ -240,9 +240,9 @@ function AddItem() {
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="tag" className="form-label"><b>Tags</b></label>
-                                <Select id="tag" name="tag" onChange={handleTagChange} value={optionsTag.find(option => option.value === formData.tag || null)}
-                                    options={optionsTag} isMulti isSearchable={false} isOptionDisabled={() => formData.tag.length>=3} placeholder="Select a tag">
+                                <label htmlFor="tags" className="form-label"><b>Tags</b></label>
+                                <Select id="tags" name="tags" onChange={handleTagChange} value={optionsTag.find(option => option.value === formData.tags || null)}
+                                    options={optionsTag} isMulti isSearchable={false} isOptionDisabled={() => formData.tags.length>=3} placeholder="Select a tag">
                                 </Select>
                             </div>
 
