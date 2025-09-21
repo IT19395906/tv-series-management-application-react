@@ -31,7 +31,7 @@ function AddItem() {
         episodes: '',
         img: '',
         trailer: '',
-        tag: '',
+        tag: [],
     });
 
     useEffect(() => {
@@ -47,9 +47,13 @@ function AddItem() {
     }, []);
 
     //reduce unneccessary rerenders
-    const options = useMemo(() => {
-       return languages.map(item => ({ value: item, label: item }));
-    },[languages]);
+    const optionsLang = useMemo(() => {
+        return languages.map(item => ({ value: item, label: item }));
+    }, [languages]);
+
+    const optionsTag = useMemo(() => {
+        return categories.map(item => ({ value: item, label: item }));
+    }, [categories]);
 
     // useEffect(() => {
     //     console.log('Updated languages:', languages);
@@ -93,12 +97,17 @@ function AddItem() {
     };
 
     const handleLanguageChange = (selected) => {
-        setFormData(prev => ({ ...prev, language: selected?.value || ''}));
+        setFormData(prev => ({ ...prev, language: selected?.value || '' }));
+    };
+
+    const handleTagChange = (selected) => {
+        const value = selected?.map(o => o.value);
+        setFormData(prev => ({ ...prev, tag: value }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         if (!formData.title || !formData.category || !formData.description || !formData.releasedDate || !formData.img || !formData.status) {
             toast.warning('Invalid Form', { toastId: "invalid-form-warning" })
             return;
@@ -214,8 +223,8 @@ function AddItem() {
 
                             <div className="mb-3">
                                 <label htmlFor="language" className="form-label"><b>Language*</b></label>
-                                <Select id="language" name="language" onChange={handleLanguageChange} onBlur={handleBlur} value={options.find(option => option.value === formData.language || null)}
-                                    options={options} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} placeholder="Select a language">
+                                <Select id="language" name="language" onChange={handleLanguageChange} onBlur={handleBlur} value={optionsLang.find(option => option.value === formData.language || null)}
+                                    options={optionsLang} isSearchable className={`${touched.language && !formData.language ? 'is-invalid' : ''}`} placeholder="Select a language">
                                 </Select>
                             </div>
 
@@ -228,6 +237,13 @@ function AddItem() {
                             <div className="mb-3">
                                 <label htmlFor="releasedDate" className="form-label"><b>Release Date*</b></label>
                                 <input type="date" id="releasedDate" name="releasedDate" ref={dateRef} onClick={handleDate} value={formData.releasedDate} className={`form-control ${touched.releasedDate && !formData.releasedDate ? 'is-invalid' : ''}`} onChange={handleChange} onBlur={handleBlur} required />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="tag" className="form-label"><b>Tags</b></label>
+                                <Select id="tag" name="tag" onChange={handleTagChange} value={optionsTag.find(option => option.value === formData.tag || null)}
+                                    options={optionsTag} isMulti isSearchable={false} placeholder="Select a tag">
+                                </Select>
                             </div>
 
                             <div className="mb-3">
