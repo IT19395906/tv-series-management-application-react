@@ -242,7 +242,7 @@ function AddItem() {
                             <div className="mb-3">
                                 <label htmlFor="tag" className="form-label"><b>Tags</b></label>
                                 <Select id="tag" name="tag" onChange={handleTagChange} value={optionsTag.find(option => option.value === formData.tag || null)}
-                                    options={optionsTag} isMulti isSearchable={false} placeholder="Select a tag">
+                                    options={optionsTag} isMulti isSearchable={false} isOptionDisabled={() => formData.tag.length>=3} placeholder="Select a tag">
                                 </Select>
                             </div>
 
