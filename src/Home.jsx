@@ -34,26 +34,43 @@ function Home() {
 
     const last = () => { if (currentPage < totalPages - 1) fetchPage(totalPages - 1); };
 
+    const search = () => {
+        const params = new URLSearchParams({ query: '', page: 0, size: 8 });
+        fetch(`http://localhost:8080/api/tvseries/searchPage?${params}`, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                setData(data.content);
+                setTotalElements(data.totalElements);
+                setTotalPages(data.totalPages);
+                setCurrentPage();
+            })
+            .catch(error => toast.error(error.message));
+    };
+
+    const handleKeyDown = (e) => { if(e.key === 'Enter') search();};
+
     return (
         <div className="container">
             <ToastContainer hideProgressBar stacked theme="colored" closeOnClick autoClose={3000} />
             <h2 className="text-center mb-3 fw-bold">Tv Series Available</h2>
+            <div className="search-box"><input type="search" className="search-input form-control mx-auto w-50" maxLength="60" placeholder="Search..........." 
+            onKeyDown={handleKeyDown} /><i style={{ cursor: 'pointer' }} className="fa fa-search search-icon" onClick={search}></i></div>
             <h6 className="text-end">Total Records : {totalElements}</h6>
             <div className="row g-5">
                 {data.map((item, index) => (
                     <div key={index} className="col-sm-12 col-md-6 col-lg-3">
                         <Link to={`/detail/${item.id}`} className="text-decoration-none text-dark">
-                        <div style={{ cursor: 'pointer' }} className="card card-hover h-100 shadow-lg">
-                            <img src={item.img || 'https://via.placeholder.com/300x200?text=No+Image'} alt={item.title} className="card-img-top" />
-                            <div className="card-body">
-                                <h4 className="card-title">{item.title}</h4>
-                                <h6>{item.releasedDate?.slice(0, 4)}</h6>
-                                <p className="card-text text-muted small mb-0">{item.category}</p>
-                                <p className="card-text text-muted small mb-0">{item.quality}&nbsp;{item.format}</p>
-                                <p className="card-text text-muted small mb-0">{item.language}</p>
-                                <p className="fw-bold mb-0"><span className={`status-circle ${item.status == 'ongoing' ? 'bg-success' : item.status == 'completed' ? 'bg-danger' : ''}`}></span>{item.status}</p>
+                            <div style={{ cursor: 'pointer' }} className="card card-hover h-100 shadow-lg">
+                                <img src={item.img || 'https://via.placeholder.com/300x200?text=No+Image'} alt={item.title} className="card-img-top" />
+                                <div className="card-body">
+                                    <h4 className="card-title">{item.title}</h4>
+                                    <h6>{item.releasedDate?.slice(0, 4)}</h6>
+                                    <p className="card-text text-muted small mb-0">{item.category}</p>
+                                    <p className="card-text text-muted small mb-0">{item.quality}&nbsp;{item.format}</p>
+                                    <p className="card-text text-muted small mb-0">{item.language}</p>
+                                    <p className="fw-bold mb-0"><span className={`status-circle ${item.status == 'ongoing' ? 'bg-success' : item.status == 'completed' ? 'bg-danger' : ''}`}></span>{item.status}</p>
+                                </div>
                             </div>
-                        </div>
                         </Link>
                     </div>
                 ))}

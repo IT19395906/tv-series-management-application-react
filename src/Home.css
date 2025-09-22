@@ -16,3 +16,29 @@
   transition: transform 0.3s ease, background-color 0.3s ease;
   background-color: #f0f0f0bf;
 }
+
+.search-input {
+  border: 2px solid #eee;
+  border-radius: 30px;
+  padding: 0.5rem 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.search-icon {
+  position: absolute;
+  right: 27%;
+  top: 48%;
+  transform: translateY(-50%);
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.search-box {
+  position: relative;
+}
