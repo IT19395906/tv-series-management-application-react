@@ -48,7 +48,7 @@ function Home() {
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && e.target.value !== null && e.target.value.trim() !== '') search(e.target.value.trim());
+        if (e.key === 'Enter' && e.target.value !== null && e.target.value.trim().length > 1) search(e.target.value.trim());
 
     };
 
