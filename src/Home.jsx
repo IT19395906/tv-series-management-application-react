@@ -34,8 +34,8 @@ function Home() {
 
     const last = () => { if (currentPage < totalPages - 1) fetchPage(totalPages - 1); };
 
-    const search = () => {
-        const params = new URLSearchParams({ query: '', page: 0, size: 8 });
+    const search = (query) => {
+        const params = new URLSearchParams({ keyword: query, page: 0, size: 8 });
         fetch(`http://localhost:8080/api/tvseries/searchPage?${params}`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
@@ -47,14 +47,17 @@ function Home() {
             .catch(error => toast.error(error.message));
     };
 
-    const handleKeyDown = (e) => { if(e.key === 'Enter') search();};
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && e.target.value !== null && e.target.value.trim() !== '') search(e.target.value.trim());
+
+    };
 
     return (
         <div className="container">
             <ToastContainer hideProgressBar stacked theme="colored" closeOnClick autoClose={3000} />
             <h2 className="text-center mb-3 fw-bold">Tv Series Available</h2>
-            <div className="search-box"><input type="search" className="search-input form-control mx-auto w-50" maxLength="60" placeholder="Search..........." 
-            onKeyDown={handleKeyDown} /><i style={{ cursor: 'pointer' }} className="fa fa-search search-icon" onClick={search}></i></div>
+            <div className="search-box"><input type="search" className="search-input form-control mx-auto w-50" maxLength="60" placeholder="Search..........."
+                onKeyDown={handleKeyDown} /><i className="fa fa-search search-icon" ></i></div>
             <h6 className="text-end">Total Records : {totalElements}</h6>
             <div className="row g-5">
                 {data.map((item, index) => (
