@@ -62,7 +62,7 @@ function Home() {
             <div className="row g-5">
                 {data.map((item, index) => (
                     <div key={index} className="col-sm-12 col-md-6 col-lg-3">
-                        <Link to={`/detail/${item.id}`} className="text-decoration-none text-dark">
+                        <Link to={`/detail/${item.id}`} state={item} className="text-decoration-none text-dark">
                             <div style={{ cursor: 'pointer' }} className="card card-hover h-100 shadow-lg">
                                 <img src={item.img || 'https://via.placeholder.com/300x200?text=No+Image'} alt={item.title} className="card-img-top" />
                                 <div className="card-body">
