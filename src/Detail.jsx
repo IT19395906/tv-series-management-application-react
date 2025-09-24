@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import './Detail.css'
+import DOMPurify from 'dompurify';
 import { useLocation } from 'react-router-dom';
 
 const Detail = () => {
   const location = useLocation();
   const data = location.state;
+  const [theme, setTheme] = useState('light');
+
+  function toggleTheme() {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  useEffect(() => {
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(theme);
+  }, [theme]);
+
+  const sanitizedUrl = DOMPurify.sanitize(data.trailer);
   return (
-    <div>
+    <>
+      <div className="text-end"><button className="btn btn-dark mb-3" onClick={toggleTheme}>{theme === 'light' ? '🌙 Dark' : '☀️ Light'}</button></div>
       <div className="text-center">
-        <img style={{height: '20rem'}} src={data.img || 'https://via.placeholder.com/300x200?text=No+Image'} alt={data.title} />
+        <img style={{ height: '20rem', borderRadius: '1rem', boxShadow: 'rgba(0, 0, 0, 0.3) -9px 8px 7px 0px' }} src={data.img || 'https://via.placeholder.com/300x200?text=No+Image'} alt={data.title} />
       </div>
 
       <h2 className="mt-3">{data.title}</h2>
@@ -29,17 +44,9 @@ const Detail = () => {
 
 
       <div>
-        <iframe width="560" height="315" src="sanitizeUrl(data.trailer)" frameBorder="0" allowFullScreen></iframe>
+        <iframe width="560" height="315" src={sanitizedUrl} allowFullScreen></iframe>
       </div >
-
-      <div className="carousel-wrapper">
-        <button className="scroll-btn" id="right" style={{right: '-2em'}}><i className="fa fa-arrow-right"></i></button>
-        <div className="carousel">
-          <img className="Imagecard" src="img" />
-        </div>
-        <button className="scroll-btn" id="left" style={{left: '-2em'}}><i className="fa fa-arrow-left"></i></button>
-      </div>
-    </div >
+    </ >
   )
 }
 
