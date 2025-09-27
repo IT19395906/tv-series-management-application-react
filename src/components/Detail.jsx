@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './Detail.css'
+import '../Detail.css'
 import DOMPurify from 'dompurify';
 import { useLocation } from 'react-router-dom';
 

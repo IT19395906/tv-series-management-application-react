@@ -1,8 +1,9 @@
-import AddItem from './AddItem'
+import AddItem from './components/AddItem'
 import './App.css'
-import Home from './Home'
-import Detail from './Detail'
+import Home from './components/Home'
+import Detail from './components/Detail'
 import {Routes,Route} from 'react-router-dom'
+import Login from './components/Login'
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route path='/add' element={<AddItem/>} />
+      <Route path='/login' element={<Login/>} />
       <Route path='/detail/:id' element={<Detail/>} />
     </Routes>
   )

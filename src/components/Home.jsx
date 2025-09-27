@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import './Home.css';
+import '../Home.css';
 import { Link } from "react-router-dom";
 
 function Home() {
