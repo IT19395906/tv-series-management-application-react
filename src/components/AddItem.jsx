@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 
 function AddItem() {
-
+    const token = localStorage.getItem('jwtToken');
     const [categories, setCategories] = useState([]);
     const [languages, setLanguages] = useState([]);
 
@@ -35,12 +35,12 @@ function AddItem() {
     });
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET' }) //fetch() returns a Promise that resolves to a Response object we handle it using then
+        fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
             .then(response => response.json()) //response.json() also returns a Promise we handle it using another then
             .then(data => { setCategories(data); })
             .catch(error => toast.error(error.message));
 
-        fetch('http://localhost:8080/api/tvseries/languages', { method: 'GET' })
+        fetch('http://localhost:8080/api/tvseries/languages', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } })
             .then(response => response.json())
             .then(data => { setLanguages(data); })
             .catch(error => toast.error(error.message));
@@ -128,7 +128,11 @@ function AddItem() {
             cancelButtonText: 'No'
         }).then(result => {
             if (result.isConfirmed) {
-                fetch('http://localhost:8080/api/tvseries/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(submitDto) })
+                fetch('http://localhost:8080/api/tvseries/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(submitDto)
+                })
                     .then(response => {
                         if (!response.ok) throw new Error('Http error');
                         return response.json();
@@ -242,7 +246,7 @@ function AddItem() {
                             <div className="mb-3">
                                 <label htmlFor="tags" className="form-label"><b>Tags</b></label>
                                 <Select id="tags" name="tags" onChange={handleTagChange} value={optionsTag.find(option => option.value === formData.tags || null)}
-                                    options={optionsTag} isMulti isSearchable={false} isOptionDisabled={() => formData.tags.length>=3} placeholder="Select a tag">
+                                    options={optionsTag} isMulti isSearchable={false} isOptionDisabled={() => formData.tags.length >= 3} placeholder="Select a tag">
                                 </Select>
                             </div>
 
