@@ -6,6 +6,7 @@ import Register from './components/Register'
 import {Routes,Route, useLocation} from 'react-router-dom'
 import Login from './components/Login'
 import Sidebar from './components/Sidebar'
+import ViewAll from './components/ViewAll'
 
 function App() {
 const location = useLocation();
@@ -21,6 +22,7 @@ return (
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />
       <Route path='/detail/:id' element={<Detail/>} />
+      <Route path='/view' element={<ViewAll/>} />
     </Routes>
     </>
   )

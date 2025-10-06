@@ -22,7 +22,7 @@ function Sidebar() {
                                     <a className="nav-link" href="/add">Add</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">View All</a>
+                                    <a className="nav-link" href="/view">View All</a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">Upcoming</a>

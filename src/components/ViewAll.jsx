@@ -1,0 +1,80 @@
+import React, { useEffect, useState } from 'react'
+import { toast, ToastContainer } from 'react-toastify';
+
+function ViewAll() {
+    const token = localStorage.getItem('jwtToken');
+    const [categories, setCategories] = useState([]);
+    const [formData, setFormData] = useState({
+        category: '',
+        title: '',
+        quality: '',
+        releasedDate: '',
+    });
+
+
+    useEffect(() => {
+        fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
+            .then(response => response.json()) //response.json() also returns a Promise we handle it using another then
+            .then(data => { setCategories(data); })
+            .catch(error => toast.error(error.message));
+    }, [token])
+
+    const handleChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    return (
+        <div className="container mt-3">
+            <form >
+                <ToastContainer hideProgressBar stacked theme="colored" closeOnClick autoClose={3000} />
+                <div className="row">
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
+                        <label htmlFor="category" className="form-label"><b>Category</b></label>
+                        <select id="category" name="category" className="form-select" onChange={handleChange} value={formData.category}>
+                            <option value="" disabled>Select a category</option>
+                            {categories.sort().map((cat, index) => <option key={index} value={cat}>{cat}</option>)}
+                        </select>
+                    </div>
+
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
+                        <label htmlFor="title" className="form-label"><b>Title</b></label>
+                        <input type="text" id="title" name="title" className={`form-control`} maxLength="50"
+                            placeholder="Enter TV Series title" />
+                    </div>
+
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
+                        <label htmlFor="releasedFrom" className="form-label"><b>Release From</b></label>
+                        <input type="date" id="releasedFrom" name="releasedFrom" className={`form-control`} />
+                    </div>
+
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
+                        <label htmlFor="releasedTo" className="form-label"><b>Release To</b></label>
+                        <input type="date" id="releasedTo" name="releasedTo" className={`form-control`} />
+                    </div>
+
+                    <div className="mb-3 col-lg-2 col-md-12 col-sm-12">
+                        <label htmlFor="quality" className="form-label"><b>Quality</b></label>
+                        <select id="quality" name="quality" className="form-select">
+                            <option value="" disabled>Select a quality</option>
+                            <option value="480p">480p (SD)</option>
+                            <option value="720p">720p (HD)</option>
+                            <option value="1080p">1080p (Full HD)</option>
+                            <option value="2k">2k</option>
+                            <option value="4k">4k</option>
+                        </select>
+                    </div>
+
+                    <div className="col-lg-3 col-md-12 col-sm-12">
+                        <button style={{borderRadius:'4rem'}} className="btn btn-secondary" type="search">Search <i
+                            className="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    )
+}
+
+export default ViewAll;
