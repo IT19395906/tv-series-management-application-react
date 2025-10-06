@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import '../Detail.css'
 import DOMPurify from 'dompurify';
 import { useLocation } from 'react-router-dom';
 
 const Detail = () => {
   const location = useLocation();
   const data = location.state;
-  const [theme, setTheme] = useState('light');
-
-  function toggleTheme() {
-    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
-  };
-
-  useEffect(() => {
-    document.body.classList.remove('light', 'dark');
-    document.body.classList.add(theme);
-  }, [theme]);
 
   const sanitizedUrl = DOMPurify.sanitize(data.trailer);
   return (
     <>
-      <div className="text-end"><button className="btn btn-dark mb-3" onClick={toggleTheme}>{theme === 'light' ? '🌙 Dark' : '☀️ Light'}</button></div>
       <div className="text-center">
         <img style={{ height: '20rem', borderRadius: '1rem', boxShadow: 'rgba(0, 0, 0, 0.3) -9px 8px 7px 0px' }} src={data.img || 'https://via.placeholder.com/300x200?text=No+Image'} alt={data.title} />
       </div>

@@ -8,7 +8,8 @@ function ViewAll() {
         category: '',
         title: '',
         quality: '',
-        releasedDate: '',
+        releasedFrom: '',
+        releasedTo: '',
     });
 
 
@@ -41,18 +42,18 @@ function ViewAll() {
 
                     <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
                         <label htmlFor="title" className="form-label"><b>Title</b></label>
-                        <input type="text" id="title" name="title" className={`form-control`} maxLength="50"
+                        <input type="text" id="title" name="title" className="form-control" maxLength="50" onChange={handleChange} value={formData.title}
                             placeholder="Enter TV Series title" />
                     </div>
 
                     <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
                         <label htmlFor="releasedFrom" className="form-label"><b>Release From</b></label>
-                        <input type="date" id="releasedFrom" name="releasedFrom" className={`form-control`} />
+                        <input type="date" id="releasedFrom" name="releasedFrom" className="form-control" value={formData.releasedFrom} onChange={handleChange}/>
                     </div>
 
                     <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
                         <label htmlFor="releasedTo" className="form-label"><b>Release To</b></label>
-                        <input type="date" id="releasedTo" name="releasedTo" className={`form-control`} />
+                        <input type="date" id="releasedTo" name="releasedTo" className="form-control" value={formData.releasedTo} onChange={handleChange}/>
                     </div>
 
                     <div className="mb-3 col-lg-2 col-md-12 col-sm-12">
