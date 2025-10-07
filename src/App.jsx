@@ -3,7 +3,7 @@ import './App.css'
 import Home from './components/Home'
 import Detail from './components/Detail'
 import Register from './components/Register'
-import {Routes,Route, useLocation} from 'react-router-dom'
+import {Routes,Route, useLocation, Navigate} from 'react-router-dom'
 import Login from './components/Login'
 import Sidebar from './components/Sidebar'
 import ViewAll from './components/ViewAll'
@@ -17,7 +17,8 @@ return (
     <>
     {showNav && <Sidebar/>}
     <Routes>
-      <Route path='/' element={<Home/>} />
+      <Route path='/' element={<Navigate to="/login" replace/>}/>
+      <Route path='/home' element={<Home/>} />
       <Route path='/add' element={<AddItem/>} />
       <Route path='/login' element={<Login/>} />
       <Route path='/register' element={<Register/>} />

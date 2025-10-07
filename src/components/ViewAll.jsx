@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
 
 function ViewAll() {
@@ -10,6 +12,8 @@ function ViewAll() {
         quality: '',
         releasedFrom: '',
         releasedTo: '',
+        addedFrom: null,
+        addedTo: null
     });
 
 
@@ -40,25 +44,32 @@ function ViewAll() {
                         </select>
                     </div>
 
-                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
                         <label htmlFor="title" className="form-label"><b>Title</b></label>
                         <input type="text" id="title" name="title" className="form-control" maxLength="50" onChange={handleChange} value={formData.title}
                             placeholder="Enter TV Series title" />
                     </div>
 
-                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
                         <label htmlFor="releasedFrom" className="form-label"><b>Release From</b></label>
-                        <input type="date" id="releasedFrom" name="releasedFrom" className="form-control" value={formData.releasedFrom} onChange={handleChange}/>
+                        <input type="date" id="releasedFrom" name="releasedFrom" className="form-control" value={formData.releasedFrom} onChange={handleChange} />
                     </div>
 
-                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3 mb-3">
+                    <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
                         <label htmlFor="releasedTo" className="form-label"><b>Release To</b></label>
-                        <input type="date" id="releasedTo" name="releasedTo" className="form-control" value={formData.releasedTo} onChange={handleChange}/>
+                        <input type="date" id="releasedTo" name="releasedTo" className="form-control" value={formData.releasedTo} onChange={handleChange} />
                     </div>
 
-                    <div className="mb-3 col-lg-2 col-md-12 col-sm-12">
+                    <div className="d-flex flex-column col-lg-3 col-md-6 col-sm-12 mb-3">
+                        <label htmlFor="addedDate" className="form-label"><b>Added Date</b></label>
+                        <DatePicker id="addedDate" selectsRange startDate={formData.addedFrom} endDate={formData.addedTo}
+                            onChange={([start, end]) => { setFormData(prev => ({ ...prev, addedFrom: start, addedTo: end })); }} className="form-control"
+                            placeholderText="select range" isClearable></DatePicker>
+                    </div>
+
+                    <div className="mb-3 col-lg-2 col-md-6 col-sm-12">
                         <label htmlFor="quality" className="form-label"><b>Quality</b></label>
-                        <select id="quality" name="quality" className="form-select">
+                        <select id="quality" name="quality" className="form-select" onChange={handleChange} value={formData.quality}>
                             <option value="" disabled>Select a quality</option>
                             <option value="480p">480p (SD)</option>
                             <option value="720p">720p (HD)</option>
@@ -69,7 +80,7 @@ function ViewAll() {
                     </div>
 
                     <div className="col-lg-3 col-md-12 col-sm-12">
-                        <button style={{borderRadius:'4rem'}} className="btn btn-secondary" type="search">Search <i
+                        <button style={{ borderRadius: '4rem' }} className="btn btn-secondary" type="search">Search <i
                             className="fa fa-search"></i></button>
                     </div>
                 </div>
