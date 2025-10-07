@@ -31,9 +31,26 @@ function ViewAll() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+
+        const { addedFrom, addedTo } = formData;
+
+        if ((!addedFrom && addedTo) || (addedFrom && !addedTo)) {
+            alert("Please select a both dates");
+            return;
+        }
+
+        if (addedFrom > addedTo) {
+            alert("Start date must be before end date");
+            return;
+        }
+    }
+
     return (
         <div className="container mt-3">
-            <form >
+            <form onSubmit={handleSubmit}>
                 <ToastContainer hideProgressBar stacked theme="colored" closeOnClick autoClose={3000} />
                 <div className="row">
                     <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
@@ -64,7 +81,7 @@ function ViewAll() {
                         <label htmlFor="addedDate" className="form-label"><b>Added Date</b></label>
                         <DatePicker id="addedDate" selectsRange startDate={formData.addedFrom} endDate={formData.addedTo}
                             onChange={([start, end]) => { setFormData(prev => ({ ...prev, addedFrom: start, addedTo: end })); }} className="form-control"
-                            placeholderText="select range" isClearable></DatePicker>
+                            placeholderText="select range" maxDate={new Date()} isClearable></DatePicker>
                     </div>
 
                     <div className="mb-3 col-lg-2 col-md-6 col-sm-12">
