@@ -164,6 +164,69 @@ function ViewAll() {
                     </div>
                 </div>
             </form>
+
+            <table className="table table-responsive table-light table-hover mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Tv Series Id</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Added Date</th>
+                        <th scope="col">Added By</th>
+                        <th scope="col">Released Date</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">No of Seasons</th>
+                        <th scope="col">No of Episodes</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <td>John</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>Doe</td>
+                        <td>@social</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     )
 }
