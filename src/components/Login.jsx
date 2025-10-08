@@ -37,7 +37,7 @@ export default function Login() {
                 if (result.message == "User login successfully") {
                     localStorage.setItem('jwtToken', result.token);
                     setLoginErr(false);
-                    navigate('/');
+                    navigate('/home');
                 } else {
                     toast.error('Login attempt failed');
                     setLoginErr(true);

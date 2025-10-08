@@ -34,18 +34,45 @@ function ViewAll() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const { category, title, quality, releasedFrom, releasedTo, addedFrom, addedTo } = formData;
 
-        const { addedFrom, addedTo } = formData;
+        if (!category && !title && !quality && !releasedFrom && !releasedTo && !addedFrom && !addedTo) {
+            toast.warn('Please fill in at least one field', { toastId: "form-validation" });
+            return;
+        }
 
         if ((!addedFrom && addedTo) || (addedFrom && !addedTo)) {
-            alert("Please select a both dates");
+            toast.warn('Please select a both dates', { toastId: "form-validation" });
             return;
         }
 
         if (addedFrom > addedTo) {
-            alert("Start date must be before end date");
+            toast.warn('Start date must be before end date', { toastId: "form-validation" });
             return;
         }
+
+        fetch('http://localhost:8080/api/tvseries/getBySearch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify(formData)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.message == 'Successfully Found Data') {
+                    setFormData({
+                        category: '',
+                        title: '',
+                        quality: '',
+                        releasedFrom: '',
+                        releasedTo: '',
+                        addedFrom: null,
+                        addedTo: null
+                    });
+                } else {
+                    result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
+                }
+            })
+            .catch(error => toast.error(error.message, { toastId: "form-error" }));
     }
 
     return (
