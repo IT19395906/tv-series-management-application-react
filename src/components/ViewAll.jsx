@@ -10,12 +10,11 @@ function ViewAll() {
         category: '',
         title: '',
         quality: '',
-        releasedFrom: '',
-        releasedTo: '',
-        addedFrom: null,
-        addedTo: null
+        releasedDateFrom: '',
+        releasedDateTo: '',
+        addedDateFrom: null,
+        addedDateTo: null
     });
-
 
     useEffect(() => {
         fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
@@ -34,19 +33,29 @@ function ViewAll() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const { category, title, quality, releasedFrom, releasedTo, addedFrom, addedTo } = formData;
+        const { category, title, quality, releasedDateFrom, releasedDateTo, addedDateFrom, addedDateTo } = formData;
 
-        if (!category && !title && !quality && !releasedFrom && !releasedTo && !addedFrom && !addedTo) {
+        if (!category && !title && !quality && !releasedDateFrom && !releasedDateTo && !addedDateFrom && !addedDateTo) {
             toast.warn('Please fill in at least one field', { toastId: "form-validation" });
             return;
         }
 
-        if ((!addedFrom && addedTo) || (addedFrom && !addedTo)) {
+        if ((!releasedDateFrom && releasedDateTo) || (releasedDateFrom && !releasedDateTo)) {
             toast.warn('Please select a both dates', { toastId: "form-validation" });
             return;
         }
 
-        if (addedFrom > addedTo) {
+        if ((!addedDateFrom && addedDateTo) || (addedDateFrom && !addedDateTo)) {
+            toast.warn('Please select a both dates', { toastId: "form-validation" });
+            return;
+        }
+
+        if (addedDateFrom > addedDateTo) {
+            toast.warn('Start date must be before end date', { toastId: "form-validation" });
+            return;
+        }
+
+        if (releasedDateFrom > releasedDateTo) {
             toast.warn('Start date must be before end date', { toastId: "form-validation" });
             return;
         }
@@ -63,10 +72,10 @@ function ViewAll() {
                         category: '',
                         title: '',
                         quality: '',
-                        releasedFrom: '',
-                        releasedTo: '',
-                        addedFrom: null,
-                        addedTo: null
+                        releasedDateFrom: '',
+                        releasedDateTo: '',
+                        addedDateFrom: null,
+                        addedDateTo: null
                     });
                 } else {
                     result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
@@ -95,19 +104,19 @@ function ViewAll() {
                     </div>
 
                     <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
-                        <label htmlFor="releasedFrom" className="form-label"><b>Release From</b></label>
-                        <input type="date" id="releasedFrom" name="releasedFrom" className="form-control" value={formData.releasedFrom} onChange={handleChange} />
+                        <label htmlFor="releasedDateFrom" className="form-label"><b>Release From</b></label>
+                        <input type="date" id="releasedDateFrom" name="releasedDateFrom" className="form-control" max={new Date().toISOString().split('T')[0]} value={formData.releasedDateFrom} onChange={handleChange} />
                     </div>
 
                     <div className="col-lg-2 col-md-6 col-sm-12 mb-3">
-                        <label htmlFor="releasedTo" className="form-label"><b>Release To</b></label>
-                        <input type="date" id="releasedTo" name="releasedTo" className="form-control" value={formData.releasedTo} onChange={handleChange} />
+                        <label htmlFor="releasedDateTo" className="form-label"><b>Release To</b></label>
+                        <input type="date" id="releasedDateTo" name="releasedDateTo" className="form-control" max={new Date().toISOString().split('T')[0]} value={formData.releasedDateTo} onChange={handleChange} />
                     </div>
 
                     <div className="d-flex flex-column col-lg-3 col-md-6 col-sm-12 mb-3">
                         <label htmlFor="addedDate" className="form-label"><b>Added Date</b></label>
-                        <DatePicker id="addedDate" selectsRange startDate={formData.addedFrom} endDate={formData.addedTo}
-                            onChange={([start, end]) => { setFormData(prev => ({ ...prev, addedFrom: start, addedTo: end })); }} className="form-control"
+                        <DatePicker id="addedDate" selectsRange startDate={formData.addedDateFrom} endDate={formData.addedDateTo}
+                            onChange={([start, end]) => { setFormData(prev => ({ ...prev, addedDateFrom: start, addedDateTo: end })); }} className="form-control"
                             placeholderText="select range" maxDate={new Date()} isClearable></DatePicker>
                     </div>
 
