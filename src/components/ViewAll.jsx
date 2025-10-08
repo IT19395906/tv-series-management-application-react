@@ -84,6 +84,27 @@ function ViewAll() {
             .catch(error => toast.error(error.message, { toastId: "form-error" }));
     }
 
+    const downloadCsv = () => { download('csv', 'Tv Series List.csv'); }
+    const downloadPdf = () => { download('pdf', 'Tv Series List.pdf'); }
+    const downloadZip = () => { download('zip', 'Tv Series List.zip'); }
+
+
+    async function download(fileType, fileName) {
+        try {
+            const response = await fetch(`http://localhost:8080/api/tvseries/export/${fileType}`, { headers: { 'Authorization': `Bearer ${token}` } });
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
     return (
         <div className="container mt-3">
             <form onSubmit={handleSubmit}>
@@ -132,9 +153,11 @@ function ViewAll() {
                         </select>
                     </div>
 
-                    <div className="col-lg-3 col-md-12 col-sm-12">
-                        <button style={{ borderRadius: '4rem' }} className="btn btn-secondary" type="search">Search <i
-                            className="fa fa-search"></i></button>
+                    <div className="col-lg-6 col-md-12 col-sm-12 d-flex flex-wrap align-self-center gap-2">
+                        <button style={{ borderRadius: '4rem' }} className="btn btn-secondary" type="search">Search <i className="fa fa-search"></i></button>
+                        <button className="btn btn-outline-success" type="button" onClick={downloadCsv}><i className="fa fa-download"></i> CSV</button>
+                        <button className="btn btn-outline-success" type="button" onClick={downloadPdf}><i className="fa fa-download"></i> PDF</button>
+                        <button className="btn btn-outline-success" type="button" onClick={downloadZip}><i className="fa fa-download"></i> ZIP</button>
                     </div>
                 </div>
             </form>
