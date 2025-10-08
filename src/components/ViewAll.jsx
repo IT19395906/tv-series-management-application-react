@@ -30,7 +30,7 @@ function ViewAll() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { category, title, quality, releasedDateFrom, releasedDateTo, addedDateFrom, addedDateTo } = formData;
@@ -60,28 +60,31 @@ function ViewAll() {
             return;
         }
 
-        fetch('http://localhost:8080/api/tvseries/getBySearch', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify(formData)
-        })
-            .then(response => response.json())
-            .then(result => {
-                if (result.message == 'Successfully Found Data') {
-                    setFormData({
-                        category: '',
-                        title: '',
-                        quality: '',
-                        releasedDateFrom: '',
-                        releasedDateTo: '',
-                        addedDateFrom: null,
-                        addedDateTo: null
-                    });
-                } else {
-                    result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
-                }
-            })
-            .catch(error => toast.error(error.message, { toastId: "form-error" }));
+        try {
+            const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (result.message == 'Successfully Found Data') {
+                setFormData({
+                    category: '',
+                    title: '',
+                    quality: '',
+                    releasedDateFrom: '',
+                    releasedDateTo: '',
+                    addedDateFrom: null,
+                    addedDateTo: null
+                });
+            } else {
+                result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
+            }
+        } catch (error) {
+            toast.error(error.message, { toastId: "form-error" });
+        }
     }
 
     const downloadCsv = () => { download('csv', 'Tv Series List.csv'); }
