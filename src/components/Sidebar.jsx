@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import {Link} from 'react-router-dom'
 import '../Sidebar.css'
 
 function Sidebar() {
@@ -23,7 +24,7 @@ function Sidebar() {
                     <button className="btn btn-dark" onClick={toggleTheme}>{theme === 'light' ? '🌙 Dark' : '☀️ Light'}</button>
                     <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" style={{ maxWidth: '9rem' }}>
                         <div className="offcanvas-header" style={{ paddingBottom: '0px' }}>
-                            <h3 className="offcanvas-title" id="offcanvasNavbarLabel"><a className="text-dark" href="/home"><i className='fa fa-home'></i></a></h3>
+                            <h3 className="offcanvas-title" id="offcanvasNavbarLabel"><Link className="text-dark" to="/home"><i className='fa fa-home'></i></Link></h3>
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div className="offcanvas-body">

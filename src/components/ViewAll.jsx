@@ -16,7 +16,7 @@ function ViewAll() {
         addedDateTo: null
     });
     const [data, setData] = useState([]);
-
+    
     useEffect(() => {
         fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
             .then(response => response.json()) //response.json() also returns a Promise we handle it using another then
@@ -30,27 +30,27 @@ function ViewAll() {
 
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        
         const { category, title, quality, releasedDateFrom, releasedDateTo, addedDateFrom, addedDateTo } = formData;
-
+        
         if (!category && !title && !quality && !releasedDateFrom && !releasedDateTo && !addedDateFrom && !addedDateTo) {
             toast.warn('Please fill in at least one field', { toastId: "form-validation" });
             return;
         }
-
+        
         if ((!releasedDateFrom && releasedDateTo) || (releasedDateFrom && !releasedDateTo)) {
             toast.warn('Please select a both dates', { toastId: "form-validation" });
             return;
         }
-
+        
         if ((!addedDateFrom && addedDateTo) || (addedDateFrom && !addedDateTo)) {
             toast.warn('Please select a both dates', { toastId: "form-validation" });
             return;
         }
-
+        
         if (addedDateFrom > addedDateTo) {
             toast.warn('Start date must be before end date', { toastId: "form-validation" });
             return;
@@ -60,16 +60,16 @@ function ViewAll() {
             toast.warn('Start date must be before end date', { toastId: "form-validation" });
             return;
         }
-
+        
         try {
             const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(formData)
             });
-
+            
             const result = await response.json();
-
+            
             if (result.message == 'Successfully Found Data') {
                 setData(result.data);
                 setFormData({
@@ -92,12 +92,12 @@ function ViewAll() {
     const downloadCsv = () => { download('csv', 'Tv Series List.csv'); }
     const downloadPdf = () => { download('pdf', 'Tv Series List.pdf'); }
     const downloadZip = () => { download('zip', 'Tv Series List.zip'); }
-
-
+    
+    
     async function download(fileType, fileName) {
         try {
             const response = await fetch(`http://localhost:8080/api/tvseries/export/${fileType}`, { headers: { 'Authorization': `Bearer ${token}` } });
-
+            
             if (!response.ok) {
                 toast.error("Download File Failed");
                 return;
@@ -113,6 +113,10 @@ function ViewAll() {
             toast.error(error.message);
         }
     }
+    
+    
+    const edit = () => {}; 
+    const remove = ()=> {};
 
     return (
         <div className="container mt-3">
@@ -203,7 +207,7 @@ function ViewAll() {
                             <td>{series.seasons}</td>
                             <td>{series.episodes}</td>
                             <td>{series.language}</td>
-                            <td className='d-flex gap-2'><button className='btn btn-primary btn-sm'><i className="fa fa-edit"></i></button><button className='btn btn-danger btn-sm'><i className="fa fa-trash"></i></button></td>
+                            <td className='d-flex gap-2'><button className='btn btn-primary btn-sm' onClick={edit}><i className="fa fa-edit"></i></button><button className='btn btn-danger btn-sm' onClick={remove}><i className="fa fa-trash"></i></button></td>
                         </tr>
                     ))}
                 </tbody>
