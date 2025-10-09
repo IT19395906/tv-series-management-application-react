@@ -15,6 +15,7 @@ function ViewAll() {
         addedDateFrom: null,
         addedDateTo: null
     });
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
@@ -70,6 +71,7 @@ function ViewAll() {
             const result = await response.json();
 
             if (result.message == 'Successfully Found Data') {
+                setData(result.data);
                 setFormData({
                     category: '',
                     title: '',
@@ -169,7 +171,8 @@ function ViewAll() {
                 </div>
             </form>
 
-            <table className="table table-responsive table-light table-hover mt-4">
+            {data.length > 0 && (
+                <table className="table table-responsive table-light table-hover mt-4">
                 <thead>
                     <tr>
                         <th scope="col">No</th>
@@ -187,50 +190,25 @@ function ViewAll() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                        <td>@social</td>
-                    </tr>
+                    {data.map((series, index) => (
+                        <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{series.id}</td>
+                            <td>{series.category}</td>
+                            <td>{series.title}</td>
+                            <td>{series.addedDate}</td>
+                            <td>{series.addedBy}</td>
+                            <td>{series.releasedDate}</td>
+                            <td>{series.status}</td>
+                            <td>{series.seasons}</td>
+                            <td>{series.episodes}</td>
+                            <td>{series.language}</td>
+                            <td>{series.Id}</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
+            )}
         </div>
     )
 }
