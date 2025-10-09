@@ -96,6 +96,10 @@ function ViewAll() {
         try {
             const response = await fetch(`http://localhost:8080/api/tvseries/export/${fileType}`, { headers: { 'Authorization': `Bearer ${token}` } });
 
+            if (!response.ok) {
+                toast.error("Download File Failed");
+                return;
+            }
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
