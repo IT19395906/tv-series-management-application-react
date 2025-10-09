@@ -1,7 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 
 const NotFound = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            navigate('/login');
+        }, 3000);
+
+        return () => clearTimeout(timeout);
+    }, [navigate])
+    
     return (
         <div className='container text-center mt-5'>
             <h1 className="display-4 text-danger">404 - Page Not Found</h1>
