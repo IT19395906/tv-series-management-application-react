@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
+import EditModal from './EditModal';
 
 function ViewAll() {
     const token = localStorage.getItem('jwtToken');
@@ -16,7 +17,9 @@ function ViewAll() {
         addedDateTo: null
     });
     const [data, setData] = useState([]);
-    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
     useEffect(() => {
         fetch('http://localhost:8080/api/tvseries/categories', { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
             .then(response => response.json()) //response.json() also returns a Promise we handle it using another then
@@ -30,27 +33,27 @@ function ViewAll() {
 
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const { category, title, quality, releasedDateFrom, releasedDateTo, addedDateFrom, addedDateTo } = formData;
-        
+
         if (!category && !title && !quality && !releasedDateFrom && !releasedDateTo && !addedDateFrom && !addedDateTo) {
             toast.warn('Please fill in at least one field', { toastId: "form-validation" });
             return;
         }
-        
+
         if ((!releasedDateFrom && releasedDateTo) || (releasedDateFrom && !releasedDateTo)) {
             toast.warn('Please select a both dates', { toastId: "form-validation" });
             return;
         }
-        
+
         if ((!addedDateFrom && addedDateTo) || (addedDateFrom && !addedDateTo)) {
             toast.warn('Please select a both dates', { toastId: "form-validation" });
             return;
         }
-        
+
         if (addedDateFrom > addedDateTo) {
             toast.warn('Start date must be before end date', { toastId: "form-validation" });
             return;
@@ -60,16 +63,16 @@ function ViewAll() {
             toast.warn('Start date must be before end date', { toastId: "form-validation" });
             return;
         }
-        
+
         try {
             const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(formData)
             });
-            
+
             const result = await response.json();
-            
+
             if (result.message == 'Successfully Found Data') {
                 setData(result.data);
                 setFormData({
@@ -92,12 +95,12 @@ function ViewAll() {
     const downloadCsv = () => { download('csv', 'Tv Series List.csv'); }
     const downloadPdf = () => { download('pdf', 'Tv Series List.pdf'); }
     const downloadZip = () => { download('zip', 'Tv Series List.zip'); }
-    
-    
+
+
     async function download(fileType, fileName) {
         try {
             const response = await fetch(`http://localhost:8080/api/tvseries/export/${fileType}`, { headers: { 'Authorization': `Bearer ${token}` } });
-            
+
             if (!response.ok) {
                 toast.error("Download File Failed");
                 return;
@@ -113,11 +116,21 @@ function ViewAll() {
             toast.error(error.message);
         }
     }
-    
-    
-    const edit = () => {}; 
-    const remove = ()=> {};
 
+
+    const edit = (item) => {
+        setSelectedItem(item);
+        setIsModalOpen(true);
+    };
+    const remove = () => { };
+
+    const closeModal = (isUpdated = false) => {
+        setIsModalOpen(false);
+        setSelectedItem(null);
+        if (isUpdated) {
+            //
+        }
+    };
     return (
         <div className="container mt-3">
             <form onSubmit={handleSubmit}>
@@ -177,41 +190,49 @@ function ViewAll() {
 
             {data.length > 0 && (
                 <table className="table table-responsive table-light table-hover mt-4">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Tv Series Id</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Added Date</th>
-                        <th scope="col">Added By</th>
-                        <th scope="col">Released Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">No of Seasons</th>
-                        <th scope="col">No of Episodes</th>
-                        <th scope="col">Language</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((series, index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{series.id}</td>
-                            <td>{series.category}</td>
-                            <td>{series.title}</td>
-                            <td>{series.addedDate}</td>
-                            <td>{series.addedBy}</td>
-                            <td>{series.releasedDate}</td>
-                            <td>{series.status}</td>
-                            <td>{series.seasons}</td>
-                            <td>{series.episodes}</td>
-                            <td>{series.language}</td>
-                            <td className='d-flex gap-2'><button className='btn btn-primary btn-sm' onClick={edit}><i className="fa fa-edit"></i></button><button className='btn btn-danger btn-sm' onClick={remove}><i className="fa fa-trash"></i></button></td>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Tv Series Id</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Added Date</th>
+                            <th scope="col">Added By</th>
+                            <th scope="col">Released Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">No of Seasons</th>
+                            <th scope="col">No of Episodes</th>
+                            <th scope="col">Language</th>
+                            <th scope="col">Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {data.map((series, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{series.id}</td>
+                                <td>{series.category}</td>
+                                <td>{series.title}</td>
+                                <td>{series.addedDate}</td>
+                                <td>{series.addedBy}</td>
+                                <td>{series.releasedDate}</td>
+                                <td>{series.status}</td>
+                                <td>{series.seasons}</td>
+                                <td>{series.episodes}</td>
+                                <td>{series.language}</td>
+                                <td>
+                                    <div className='d-flex gap-2'>
+                                        <button className='btn btn-primary btn-sm' onClick={() => edit(series)}><i className="fa fa-edit"></i></button><button className='btn btn-danger btn-sm' onClick={remove}><i className="fa fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+
+            {isModalOpen && (
+                <EditModal data={selectedItem} onClose={closeModal} />
             )}
         </div>
     )

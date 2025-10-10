@@ -272,7 +272,7 @@ function AddItem() {
                                 <label htmlFor="imdb" className="form-label"><b>IMDB Rate</b></label>
                                 <div className="input-group">
                                     <input type="number" id="imdb" name="imdb" value={formData.imdb} className="form-control" onChange={handleChange} min="1"
-                                        max="10" placeholder="Enter IMDB Rate" />
+                                        step="0.1" max="10" placeholder="Enter IMDB Rate" />
                                     <span className="input-group-text">/10</span>
                                 </div>
                             </div>
