@@ -134,8 +134,8 @@ const EditModal = ({ data, onClose }) => {
             cancelButtonText: 'Cancel',
         }).then(result => {
             if (result.isConfirmed) {
-                fetch('http://localhost:8080/api/tvseries/update' + data.id, {
-                    method: 'PUT',
+                fetch('http://localhost:8080/api/tvseries/patch' + data.id, {
+                    method: 'PATCH',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify(updateDto)
                 })
