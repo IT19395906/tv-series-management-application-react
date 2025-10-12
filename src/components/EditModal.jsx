@@ -134,7 +134,7 @@ const EditModal = ({ data, onClose }) => {
             cancelButtonText: 'Cancel',
         }).then(result => {
             if (result.isConfirmed) {
-                fetch('http://localhost:8080/api/tvseries/patch' + data.id, {
+                fetch('http://localhost:8080/api/tvseries/patch/' + data.id, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify(updateDto)
@@ -144,7 +144,7 @@ const EditModal = ({ data, onClose }) => {
                         return response.json();
                     })
                     .then(result => {
-                        if (result.message == 'Tv Series Updated Successfully') {
+                        if (result.message == 'TV Series Updated Successfully') {
                             toast.success('Tv Series Updated Successfully', { toastId: "form-success" })
                             onClose(true);
                         } else {
