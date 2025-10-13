@@ -30,28 +30,32 @@ function ViewAll() {
 
 
     const getBySearch = async (searchDto) => {
-        const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify(searchDto)
-        });
-
-        const result = await response.json();
-
-        if (result.message == 'Successfully Found Data') {
-            setPreviousData(formData);
-            setData(result.data);
-            setFormData({
-                category: '',
-                title: '',
-                quality: '',
-                releasedDateFrom: '',
-                releasedDateTo: '',
-                addedDateFrom: null,
-                addedDateTo: null
+        try {
+            const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(searchDto)
             });
-        } else {
-            result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
+
+            const result = await response.json();
+
+            if (result.message == 'Successfully Found Data') {
+                setPreviousData(formData);
+                setData(result.data);
+                setFormData({
+                    category: '',
+                    title: '',
+                    quality: '',
+                    releasedDateFrom: '',
+                    releasedDateTo: '',
+                    addedDateFrom: null,
+                    addedDateTo: null
+                });
+            } else {
+                result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
+            }
+        } catch (error) {
+            toast.error(error.message, { toastId: "form-error" });
         }
     }
 
@@ -92,11 +96,7 @@ function ViewAll() {
             return;
         }
 
-        try {
-            getBySearch(formData);
-        } catch (error) {
-            toast.error(error.message, { toastId: "form-error" });
-        }
+        getBySearch(formData);                                        
     }
 
     const downloadCsv = () => { download('csv', 'Tv Series List.csv'); }
