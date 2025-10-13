@@ -132,26 +132,25 @@ const EditModal = ({ data, onClose }) => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
-        }).then(result => {
-            if (result.isConfirmed) {
-                fetch('http://localhost:8080/api/tvseries/patch/' + data.id, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify(updateDto)
-                })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Http error');
-                        return response.json();
-                    })
-                    .then(result => {
-                        if (result.message == 'TV Series Updated Successfully') {
-                            toast.success('Tv Series Updated Successfully', { toastId: "form-success" })
-                            onClose(true);
-                        } else {
-                            toast.error('Tv Series Update Failed')
-                        }
-                    })
-                    .catch(error => toast.error(error.message, { toastId: "form-error" }));
+        }).then(async result => {
+         if (result.isConfirmed) {
+                try {
+                    const response = await fetch('http://localhost:8080/api/tvseries/patch/' + data.id, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                        body: JSON.stringify(updateDto)});
+
+                    const result = await response.json();
+
+                    if (result.message == 'TV Series Updated Successfully') {
+                        toast.success('Tv Series Updated Successfully', { toastId: "form-success" })
+                        onClose(true);
+                    } else {
+                        toast.error('Tv Series Update Failed')
+                    }
+                } catch (error) {
+                    toast.error(error.message, { toastId: "form-error" });
+                }
             }
         })
 
@@ -161,8 +160,8 @@ const EditModal = ({ data, onClose }) => {
         <div className="modal-overlay">
             <div className="modal">
                 <div className="text-center bg-primary text-white">
-                <h4>Update {formData.title?.trim()} TV Series</h4>
-            </div>
+                    <h4>Update {formData.title?.trim()} TV Series</h4>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="mb-3">
@@ -248,7 +247,7 @@ const EditModal = ({ data, onClose }) => {
                             <label htmlFor="imdb" className="form-label"><b>IMDB Rate</b></label>
                             <div className="input-group">
                                 <input type="number" id="imdb" name="imdb" value={formData.imdb} className="form-control" onChange={handleChange} min="1"
-                                  step="0.1" max="10" placeholder="Enter IMDB Rate" />
+                                    step="0.1" max="10" placeholder="Enter IMDB Rate" />
                                 <span className="input-group-text">/10</span>
                             </div>
                         </div>
