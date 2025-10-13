@@ -16,6 +16,7 @@ function ViewAll() {
         addedDateFrom: null,
         addedDateTo: null
     });
+    const [previousData, setPreviousData] = useState(null);
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -27,6 +28,33 @@ function ViewAll() {
             .catch(error => toast.error(error.message));
     }, [token])
 
+
+    const getBySearch = async (searchDto) => {
+        const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify(searchDto)
+        });
+
+        const result = await response.json();
+
+        if (result.message == 'Successfully Found Data') {
+            setPreviousData(formData);
+            setData(result.data);
+            setFormData({
+                category: '',
+                title: '',
+                quality: '',
+                releasedDateFrom: '',
+                releasedDateTo: '',
+                addedDateFrom: null,
+                addedDateTo: null
+            });
+        } else {
+            result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
+        }
+    }
+
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -34,7 +62,7 @@ function ViewAll() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const { category, title, quality, releasedDateFrom, releasedDateTo, addedDateFrom, addedDateTo } = formData;
@@ -65,28 +93,7 @@ function ViewAll() {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/api/tvseries/getBySearch', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify(formData)
-            });
-
-            const result = await response.json();
-
-            if (result.message == 'Successfully Found Data') {
-                setData(result.data);
-                setFormData({
-                    category: '',
-                    title: '',
-                    quality: '',
-                    releasedDateFrom: '',
-                    releasedDateTo: '',
-                    addedDateFrom: null,
-                    addedDateTo: null
-                });
-            } else {
-                result.message === 'Tv Series Not Found' ? toast.error(result.message) : toast.error('Tv Series Search Failed')
-            }
+            getBySearch(formData);
         } catch (error) {
             toast.error(error.message, { toastId: "form-error" });
         }
@@ -128,7 +135,7 @@ function ViewAll() {
         setIsModalOpen(false);
         setSelectedItem(null);
         if (isUpdated) {
-            //
+            getBySearch(previousData);
         }
     };
     return (
