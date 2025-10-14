@@ -55,7 +55,8 @@ function Home() {
     return (
         <div className="container">
             <ToastContainer hideProgressBar stacked theme="colored" closeOnClick autoClose={3000} />
-            <h2 className="text-center mb-3 fw-bold">Tv Series Available</h2>
+            <h1 className="text-center mb-1 fw-bold"><span className="text-style1">Escape </span><span className="text-style4">into </span><span className="text-style2">Worlds </span><span className="text-style3">Beyond </span><span className="text-style5">Imagination</span></h1>
+            <h3 className="text-center mb-3 fw-bold">Tv Series Available</h3>
             <div className="search-box"><input type="search" className="search-input form-control mx-auto w-50" maxLength="60" placeholder="Search..........."
                 onKeyDown={handleKeyDown} /><i className="fa fa-search search-icon" ></i></div>
             <h6 className="text-end">Total Records : {totalElements}</h6>

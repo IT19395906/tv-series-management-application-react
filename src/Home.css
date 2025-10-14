@@ -42,3 +42,33 @@
 .search-box {
   position: relative;
 }
+
+.text-style1 {
+  background: linear-gradient(90deg, #ff6a00, #ffb347);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-style2 {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-style3 {
+  background: linear-gradient(90deg, #0072ff, #4a00e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-style4 {
+  background: linear-gradient(90deg, #f7971e, #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-style5 {
+  background: linear-gradient(90deg, #00b09b, #96c93d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
