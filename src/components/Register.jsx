@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
@@ -48,6 +48,41 @@ const Register = () => {
 
   }
 
+  useEffect(() => {
+
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: "YOUR_GOOGLE_CLIENT_ID",
+        callback: handleGoogleResponse
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleSignUpDiv"),
+        { theme: "outline", size: "large", text: "signup_with" }
+      );
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleGoogleResponse = (response) => {
+
+    const token = response.credential;
+    fetch('http://localhost:8080/api/auth/google-register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem('userType', data.role || 0);
+          navigate('/login');
+        } else {
+          toast.error('Google registration failed');
+        }
+      })
+      .catch(() => toast.error('Google registration failed'));
+  };
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -74,6 +109,11 @@ const Register = () => {
                   style={{ position: 'absolute', cursor: 'pointer', right: ' 1rem', top: '2.7rem' }}></i>
               </div>
               <button type="submit" className="mt-2 btn btn-primary w-100">Register</button>
+              <div className="text-center my-3">— or —</div>
+              <button type="button" className="btn btn-light border w-100 d-flex align-items-center justify-content-center gap-2" id='googleSignUpDiv'>
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" width="20" height="20" />
+                <span>Continue with Google</span>
+              </button>
             </form>
           </div>
         </div>
