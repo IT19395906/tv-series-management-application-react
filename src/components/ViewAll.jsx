@@ -130,7 +130,8 @@ function ViewAll() {
         setSelectedItem(item);
         setIsModalOpen(true);
     };
-    const remove = (item) => { console.log(item)
+    const remove = (item) => {
+
         Swal.fire({
             title: "Are you sure want to delete ?",
             icon: 'warning',
@@ -151,6 +152,7 @@ function ViewAll() {
 
                     if (result.message == 'Successfully Deleted Tv series') {
                         toast.success(`Tv Series successfully deleted Id ${item.id}`, { toastId: "form-success" })
+                        setData(prev => prev.filter(s => s.id !== item.id));
                     } else {
                         toast.error('Delete tv series failed')
                     }
