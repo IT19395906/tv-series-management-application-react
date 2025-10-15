@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Contact = () => {
+  const token = localStorage.getItem('jwtToken');
   const [formData, setFormData] = useState({
     fname: '',
     lname: '',
@@ -18,11 +19,48 @@ const Contact = () => {
     }));
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const submitDto = new FormData();
+    submitDto.append("fname", formData.fname);
+    submitDto.append("lname", formData.lname);
+    submitDto.append("email", formData.email);
+    submitDto.append("contact", formData.contact);
+    submitDto.append("content", formData.content);
+    submitDto.append("file", formData.file);
+
+    try {
+      const response = await fetch('http://localhost:8080/api/tvseries/contact', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: submitDto
+      });
+
+      const result = await response.json();
+
+      if (result.message == 'Request Sent Successfully') {
+        setFormData({
+          fname: '',
+          lname: '',
+          email: '',
+          contact: '',
+          content: '',
+          file: null
+        });
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error('Request Send Failed', error.message);
+    }
+  }
+
   return (
-    <div className="card mx-auto rounded shadow" style={{maxWidth:'700px'}}>
+    <div className="card mx-auto rounded shadow" style={{ maxWidth: '700px' }}>
       <div className="card-header text-center"><h4>Contact Us</h4></div>
       <div className="card-body">
-        <form >
+        <form onSubmit={handleSubmit}>
           <ToastContainer hideProgressBar stacked theme="colored" closeOnClick autoClose={3000} />
           <div className="row">
 
@@ -54,7 +92,7 @@ const Contact = () => {
 
             <div className="mb-3 col-lg-6 col-md-12 col-sm-12">
               <label htmlFor="file" className="form-label"><b>Uploads</b></label>
-              <input type="file" id="file" name="file" className="form-control" onChange={handleChange} value={formData.file}
+              <input type="file" id="file" name="file" className="form-control" onChange={handleChange}
                 accept="image/*, .txt, .doc, .docx" />
             </div>
 
