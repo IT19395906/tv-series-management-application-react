@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { toast, ToastContainer } from 'react-toastify';
 import EditModal from './EditModal';
+import Swal from 'sweetalert2';
 
 function ViewAll() {
     const token = localStorage.getItem('jwtToken');
@@ -96,7 +97,7 @@ function ViewAll() {
             return;
         }
 
-        getBySearch(formData);                                        
+        getBySearch(formData);
     }
 
     const downloadCsv = () => { download('csv', 'Tv Series List.csv'); }
@@ -129,7 +130,36 @@ function ViewAll() {
         setSelectedItem(item);
         setIsModalOpen(true);
     };
-    const remove = () => { };
+    const remove = (item) => { console.log(item)
+        Swal.fire({
+            title: "Are you sure want to delete ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+        }).then(async result => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('http://localhost:8080/api/tvseries/delete/' + item.id, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    });
+
+                    const result = await response.json();
+
+                    if (result.message == 'Successfully Deleted Tv series') {
+                        toast.success(`Tv Series successfully deleted Id ${item.id}`, { toastId: "form-success" })
+                    } else {
+                        toast.error('Delete tv series failed')
+                    }
+                } catch (error) {
+                    toast.error(error.message, { toastId: "form-error" });
+                }
+            }
+        })
+    };
 
     const closeModal = (isUpdated = false) => {
         setIsModalOpen(false);
@@ -229,7 +259,8 @@ function ViewAll() {
                                 <td>{series.language}</td>
                                 <td>
                                     <div className='d-flex gap-2'>
-                                        <button className='btn btn-primary btn-sm' onClick={() => edit(series)}><i className="fa fa-edit"></i></button><button className='btn btn-danger btn-sm' onClick={remove}><i className="fa fa-trash"></i></button>
+                                        <button className='btn btn-primary btn-sm' onClick={() => edit(series)}><i className="fa fa-edit"></i></button>
+                                        <button className='btn btn-danger btn-sm' onClick={() => remove(series)}><i className="fa fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>

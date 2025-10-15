@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Link} from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import '../Sidebar.css'
 
 function Sidebar() {
@@ -30,16 +30,16 @@ function Sidebar() {
                         <div className="offcanvas-body">
                             <ul className="navbar-nav">
                                 <li className="nav-item">
-                                    <a className="nav-link" href="/add">Add</a>
+                                    <NavLink to="/add" className="nav-link">Add</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link active" href="/view">View All</a>
+                                    <NavLink to="/view" className="nav-link">View All</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Upcoming</a>
+                                    <NavLink to="/upcoming" className="nav-link">Upcoming</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Contact Us</a>
+                                    <NavLink to="/contact" className="nav-link">Contact Us</NavLink>
                                 </li>
                             </ul>
                         </div>
