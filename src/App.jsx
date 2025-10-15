@@ -8,6 +8,7 @@ import Login from './components/Login'
 import Sidebar from './components/Sidebar'
 import ViewAll from './components/ViewAll'
 import NotFound from './components/NotFound'
+import Contact from './components/Contact'
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/detail/:id' element={<Detail />} />
         <Route path='/view' element={<ViewAll />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
