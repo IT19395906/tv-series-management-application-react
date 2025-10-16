@@ -1,12 +1,69 @@
-# React + Vite
+# 📺 TV Series Management System (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an **React web application** designed for managing TV series with **role-based access control** and **JWT authentication**. The application allows different types of users (Admins and Normal Users) to interact with the system based on their roles.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔐 Features
 
-## Expanding the ESLint configuration
+### ✅ Authentication & Authorization
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **JWT-based authentication**
+- **AuthGuard** to protect routes and restrict access for unauthorized users
+- **Role-based access control** for Admin and Normal users
+
+---
+
+## 👤 User Roles
+
+### 🔸 Admin
+
+- Add new TV series
+- View all added TV series
+- Filter/search TV series with multiple filters
+- Update existing TV series data
+- Partially update TV series data
+- Delete TV series from the system
+
+### 🔹 Normal User
+
+- View all available TV series
+- Search TV series by title
+- View full details of a selected TV series
+- Send user requests through contact us
+
+---
+
+## 🛠️ Technologies & Tools Used
+
+- **React**
+- **JWT (JSON Web Tokens)**
+- **React Plugins**
+  - `React Select`
+- **Bootstrap**
+- **Lazy Loading** for optimized module loading
+- **Paginated API responses** from backend
+- **Custom 404 Page** for invalid routes
+- **Login Page**
+
+---
+
+## 📸 UI Snapshots
+
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js
+- Vite
+
+### Installation
+
+```bash
+git clone https://github.com/IT19395906/tv-series-management-application-react.git
+cd your-repo-name
+npm install
+npm run dev
