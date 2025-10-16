@@ -53,13 +53,6 @@ This is an **React web application** designed for managing TV series with **role
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js
-- Vite
-
 ### Installation
 
 ```bash
