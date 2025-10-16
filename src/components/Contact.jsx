@@ -22,6 +22,11 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.fname.trim() || !formData.lname.trim() || !formData.email.trim() || !formData.content.trim()) {
+      toast.warn("Please fill all required details");
+      return;
+    }
+
     const submitDto = new FormData();
     submitDto.append("fname", formData.fname.trim());
     submitDto.append("lname", formData.lname.trim());
@@ -82,7 +87,7 @@ const Contact = () => {
 
             <div className="mb-3 col-lg-6 col-md-12 col-sm-12">
               <label htmlFor='contact' className='form-label'><b>Contact Number</b></label>
-              <input type='tel' id='contact' name='contact' pattern="[0-9]{10}" className='form-control' maxLength="12" placeholder='Enter Your Contact Number' onChange={handleChange} value={formData.contact} />
+              <input type='tel' id='contact' name='contact' pattern="[0-9]{10}" className='form-control' maxLength="10" placeholder='Enter Your Contact Number' onChange={handleChange} value={formData.contact} />
             </div>
 
             <div className="mb-3 col-lg-6 col-md-12 col-sm-12">
