@@ -23,15 +23,15 @@ const Contact = () => {
     e.preventDefault();
 
     const submitDto = new FormData();
-    submitDto.append("fname", formData.fname);
-    submitDto.append("lname", formData.lname);
-    submitDto.append("email", formData.email);
+    submitDto.append("fname", formData.fname.trim());
+    submitDto.append("lname", formData.lname.trim());
+    submitDto.append("email", formData.email.trim());
     submitDto.append("contact", formData.contact);
-    submitDto.append("content", formData.content);
+    submitDto.append("content", formData.content.trim());
     submitDto.append("file", formData.file);
 
     try {
-      const response = await fetch('http://localhost:8080/api/tvseries/contact', {
+      const response = await fetch('http://localhost:8080/api/requests/contact', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: submitDto
@@ -40,6 +40,7 @@ const Contact = () => {
       const result = await response.json();
 
       if (result.message == 'Request Sent Successfully') {
+        toast.success('Request Sent Successfully');
         setFormData({
           fname: '',
           lname: '',
