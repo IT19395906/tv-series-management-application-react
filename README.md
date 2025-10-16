@@ -39,7 +39,14 @@ This is an **React web application** designed for managing TV series with **role
 - **React**
 - **JWT (JSON Web Tokens)**
 - **React Plugins**
-  - `React Select`
+  - `react-select`
+  - `React hooks`
+  - `sweetalert`
+  - `react-toastify`
+  - `dompurify`
+  - `react-datepicker`
+  - `light-dark theme toggle`
+  - `font-awesome icons`
 - **Bootstrap**
 - **Lazy Loading** for optimized module loading
 - **Paginated API responses** from backend
