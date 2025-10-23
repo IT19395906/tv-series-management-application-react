@@ -23,7 +23,7 @@ const Contact = () => {
     e.preventDefault();
 
     if (!formData.fname.trim() || !formData.lname.trim() || !formData.email.trim() || !formData.content.trim()) {
-      toast.warn("Please fill all required details");
+      toast.warn("Please fill all required details", { toastId: "form-validation" });
       return;
     }
 
@@ -58,7 +58,7 @@ const Contact = () => {
         toast.error(result.message);
       }
     } catch (error) {
-      toast.error('Request Send Failed', error.message);
+      toast.error('Request Send Failed', error.message,{ toastId: "form-error" });
     }
   }
 

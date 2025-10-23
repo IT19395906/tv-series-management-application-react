@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import '../Sidebar.css'
+import Swal from 'sweetalert2';
 
 function Sidebar() {
     const [theme, setTheme] = useState('light');
+
+    const navigate = useNavigate();
 
     function toggleTheme() {
         setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
@@ -13,6 +16,24 @@ function Sidebar() {
         document.body.classList.remove('light', 'dark');
         document.body.classList.add(theme);
     }, [theme]);
+
+
+    function logout() {
+        Swal.fire({
+            title: "Are you sure want to logout ?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+        }).then(result => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('jwtToken');
+                navigate('/login');
+            }
+        })
+    }
 
     return (
         <div>
