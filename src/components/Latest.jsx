@@ -9,7 +9,7 @@ const Latest = () => {
     useEffect(() => {
         fetch(`http://localhost:8080/api/tvseries/latest`, { method: 'GET' })
             .then(response => response.json())
-            .then(data => { console.log(data)
+            .then(data => {
                 setData(data);
             })
             .catch(error => toast.error(error.message));
