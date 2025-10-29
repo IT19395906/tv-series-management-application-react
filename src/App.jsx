@@ -10,6 +10,7 @@ import ViewAll from './components/ViewAll'
 import NotFound from './components/NotFound'
 import Contact from './components/Contact'
 import Latest from './components/Latest'
+import Shortcut from './components/Shortcut'
 
 function App() {
   const location = useLocation();
@@ -29,6 +30,7 @@ function App() {
         <Route path='/view' element={<ViewAll />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/latest' element={<Latest/>} />
+        <Route path='/shortcut' element={<Shortcut/>}/>
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>

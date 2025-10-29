@@ -60,6 +60,15 @@ function Sidebar() {
                                     <NavLink to="/latest" className="nav-link">Latest</NavLink>
                                 </li>
                                 <li className="nav-item">
+                                    <NavLink to="/shortcut?type=genre" className="nav-link">Genre</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to="/shortcut?type=year" className="nav-link">Year</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to="/shortcut?type=language" className="nav-link">Language</NavLink>
+                                </li>
+                                <li className="nav-item">
                                     <NavLink to="/view" className="nav-link">View All</NavLink>
                                 </li>
                                 <li className="nav-item">
