@@ -57,6 +57,9 @@ function Sidebar() {
                                     <NavLink to="/add" className="nav-link">Add</NavLink>
                                 </li>
                                 <li className="nav-item">
+                                    <NavLink to="/latest" className="nav-link">Latest</NavLink>
+                                </li>
+                                <li className="nav-item">
                                     <NavLink to="/view" className="nav-link">View All</NavLink>
                                 </li>
                                 <li className="nav-item">
