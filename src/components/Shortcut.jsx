@@ -36,12 +36,21 @@ function Shortcut() {
         }
     }, [type]);
 
+    const handleType = () => {
+        switch (type) {
+            case "genre":
+                break;
+            case "year":
+                break;
+        }
+    }
+
     return (
         <div className='container mt-4 text-center'>
             <h2>{type === "genre" ? "Tv Series By Genre" : type === "year" ? "Tv Series By Year" : "Tv Series By Language"}</h2>
             <div className='d-flex flex-wrap gap-2 mt-3'>
                 {items.map((item) => (
-                    <button key={item} className='btn  btn-sm btn-outline-danger'>{item}</button>
+                    <button key={item} className='btn  btn-sm btn-outline-danger' onClick={handleType}>{item}</button>
                 ))}
             </div>
         </div>
