@@ -36,12 +36,27 @@ function Shortcut() {
         }
     }, [type]);
 
-    const handleType = () => {
+    const handleType = (value) => {
         switch (type) {
             case "genre":
+                fetch(`http://localhost:8080/api/tvseries/getByCategory/${value}`, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
+                    .then(response => response.json())
+                    .then(data => { setYears(data); })
+                    .catch(error => toast.error(error.message));
                 break;
             case "year":
+                fetch(`http://localhost:8080/api/tvseries/getByYear/${value}`, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
+                    .then(response => response.json())
+                    .then(data => { setYears(data); })
+                    .catch(error => toast.error(error.message));
                 break;
+            case "language":
+                fetch(`http://localhost:8080/api/tvseries/getByLanguage/${value}`, { method: 'GET', headers: { 'Authorization': `Bearer ${token}` } }) //fetch() returns a Promise that resolves to a Response object we handle it using then
+                    .then(response => response.json())
+                    .then(data => { setYears(data); })
+                    .catch(error => toast.error(error.message));
+                break;
+            default: throw new Error;
         }
     }
 
@@ -50,7 +65,7 @@ function Shortcut() {
             <h2>{type === "genre" ? "Tv Series By Genre" : type === "year" ? "Tv Series By Year" : "Tv Series By Language"}</h2>
             <div className='d-flex flex-wrap gap-2 mt-3'>
                 {items.map((item) => (
-                    <button key={item} className='btn  btn-sm btn-outline-danger' onClick={handleType}>{item}</button>
+                    <button key={item} className='btn  btn-sm btn-outline-danger' onClick={(item) => handleType(item)}>{item}</button>
                 ))}
             </div>
         </div>
