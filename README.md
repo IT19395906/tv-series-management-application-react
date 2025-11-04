@@ -59,6 +59,7 @@ This is an **React web application** designed for managing TV series with **role
 <div style="display:flex; gap:8px;">
 <img src="public/login.png" width="150">
 <img src="public/register.png" width="150">
+<img src="public/sidebar.png" width="150">
 <img src="public/logout.png" width="150">
 <img src="public/home1.png" width="150">
 <img src="public/home2.png" width="150">
@@ -71,6 +72,15 @@ This is an **React web application** designed for managing TV series with **role
 <img src="public/view2.png" width="150">
 <img src="public/add1.png" width="150">
 <img src="public/add2.png" width="150">
+<img src="public/update1.png" width="150">
+<img src="public/update2.png" width="150">
+<img src="public/delete.png" width="150">
+<img src="public/viewall1.png" width="150">
+<img src="public/viewall2.png" width="150">
+<img src="public/viewall3.png" width="150">
+<img src="public/contact1.png" width="150">
+<img src="public/contact2.png" width="150">
+<img src="public/theme.png" width="150">
 </div>
 ---
 
