@@ -56,8 +56,14 @@ This is an **React web application** designed for managing TV series with **role
 ---
 
 ## 📸 UI Snapshots
-
-
+<div style="display:flex; gap:8px;">
+<img src="public/login.png" width="150">
+<img src="public/register.png" width="150">
+<img src="public/logout.png" width="150">
+<img src="public/home1.png" width="150">
+<img src="public/home2.png" width="150">
+<img src="public/full2.png" width="150">
+</div>
 ---
 
 ### Installation
