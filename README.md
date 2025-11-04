@@ -62,7 +62,15 @@ This is an **React web application** designed for managing TV series with **role
 <img src="public/logout.png" width="150">
 <img src="public/home1.png" width="150">
 <img src="public/home2.png" width="150">
+<img src="public/full1.png" width="150">
 <img src="public/full2.png" width="150">
+<img src="public/category.png" width="150">
+<img src="public/year.png" width="150">
+<img src="public/language.png" width="150">
+<img src="public/view1.png" width="150">
+<img src="public/view2.png" width="150">
+<img src="public/add1.png" width="150">
+<img src="public/add2.png" width="150">
 </div>
 ---
 
